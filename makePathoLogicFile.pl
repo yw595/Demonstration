@@ -11,10 +11,15 @@ while(<ANNOTIN1>)
 {
     my $line=$_;
     chomp($line);
+	#for normal AnnotationSpreadsheet, grab eight different fields separated by commas. 
+	#([^,]*) means 0 or more characters that are not commas.
     if($line=~/^([^,]*),([^,]*),([^,]*),([^,]*),(.*),([^,]*),([^,]*),([^,]*)$/)
     {
 	$ECNumbers1{$1}="";
 	my $hasContig=1;
+	#if no contig number in sixth field, output to noContig.pf
+	#else, check if corresponding .pf file is already created
+	#if not, create the new file, otherwise just append to existing file
 	if($6 eq "")
 	{
 	    open(OUT,">>$outputDir/noContig.pf");
@@ -36,6 +41,8 @@ while(<ANNOTIN1>)
 	{
 	    print OUT "ID\t$id\n";
 	}
+
+	#if there is no name in the fifth field, use the EC number as the name
 	if($name eq "")
 	{
 	    print OUT "NAME\t$ECNumber\n";
@@ -61,12 +68,14 @@ while(<ANNOTIN2>)
 {
     my $line=$_;
     chomp($line);
+	#for AnnotationSpreadsheetWenbin, grab just two comma-delimited fields
     if($line=~/([^,]*),([^,]*)/)
     {
 	if(!(exists $ECNumbers1{$1}))
 	{
 	    my $ECNumber=$1;
 	    my $name=$2;
+		#similar to above, if no name in second field, use EC number instead
 	    if($name eq "")
 	    {
 		print OUT "NAME\t$ECNumber\n";
@@ -85,6 +94,8 @@ while(<ANNOTIN2>)
 close(OUT);
 opendir(DIR,$outputDir);
 my @files=readdir(DIR);
+
+#if there are some contig .fa files without any annotations, make empty dummy .pf files for them
 for(my $i=0;$i<$#files;$i++)
 {
     if($files[$i]=~/(.*).fa/ && $files[$i] ne "noContig.fa" && !(exists $contigs{$1}))

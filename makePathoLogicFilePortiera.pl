@@ -6,6 +6,10 @@ open(OUT,">$ARGV[1]");
 my @ECNumbers=();
 my @names=();
 my $ECLines=0;
+
+#iterate over each line
+#if it begins with EC, push the first EC number onto the array ECNumbers
+#else, push onto the array names
 while(<ANNOTIN>)
 {
     my $line=$_;
@@ -32,6 +36,8 @@ while(<ANNOTIN>)
     }
 }
 
+#names and ECNumbers should be the same length
+#print entries for each enzyme with name and ECNumber
 for(my $i=0;$i<=$#ECNumbers;$i++)
 {
     if($ECNumbers[$i] ne "")

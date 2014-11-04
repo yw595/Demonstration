@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 
+#iterate over all lines, store EC numbers that fit pattern of four numbers separated by dots
 open(ANNOTTABLEIN,"$ARGV[0]");
 my %commonECNumbers=();
 while(<ANNOTTABLEIN>)
@@ -23,6 +24,7 @@ while(<ANNOTTABLEIN>)
     }
 }
 
+#iterate over 6 EXPASY files, which contain EC numbers starting with 1-6 and descriptions
 my %ECNumbersToEnzymeNames=();
 for(my $i=1;$i<=6;$i++)
 {
@@ -34,10 +36,13 @@ for(my $i=1;$i<=6;$i++)
 	chomp($line);
 	if($line =~ /(\d)+\.(\d)+\.(\d)+\.(\d)+/)
 	{
+		#EC number is followed by <, so extract index as end of EC number
 	    $line =~ /\d </;
 	    my $endECNumberIndex=$-[0];
+		#enzyme description starts after > symbol
 	    $line =~ />\s/;
 	    my $startDescriptionIndex=$+[0];
+		#map enzyme description to EC number
 	    $ECNumbersToEnzymeNames{substr($line,0,$endECNumberIndex+1)}=substr($line,$startDescriptionIndex+2);
 	}
     }

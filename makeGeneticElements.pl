@@ -4,16 +4,19 @@ use warnings;
 my $inputDir=$ARGV[0];
 my $species=$ARGV[1];
 open(OUT,">$ARGV[2]");
+
+#get list of all files in inputDir
 opendir(DIR,$inputDir);
 my @inputFiles=readdir(DIR);
-my $contignum=0;
 for(my $i=0;$i<$#inputFiles;$i++)
 {
+	#check that input files are only .fa files
     if($inputFiles[$i] ne ".." && $inputFiles[$i] ne "." && $inputFiles[$i]=~/(.*).fa/)
     {
+	#for normal contig files, pick contigName as the name of input file, contigNumber as a substring of that
+	#for noContig.fa, contigName is "noContig"
 	if($inputFiles[$i] ne "noContig.fa")
 	{
-	    $contignum=$contignum+1;
 	    $inputFiles[$i]=~/(.*).fa/;
 	    #print $inputFiles[$i] . "\n";
 	    my $contigName=$1;

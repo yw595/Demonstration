@@ -9,10 +9,14 @@ my $parser=Spreadsheet::ParseExcel->new();
 my $workbook=$parser->parse($ExcelFile);
 
 open (OUT,">$ARGV[1]");
+#iterate over all worksheets in the Excel file
 for my $worksheet ( $workbook->worksheets())
 {
     my ($row_min,$row_max) = $worksheet->row_range();
     my ($col_min,$col_max) = $worksheet->col_range();
+	#for each row in the RAST excel file, get the function in the seventh cell and location in the third cell
+	#extract contig, begin and end from the location, and all EC numbers from the function using getECNumbers
+	#print out all EC numbers found, plus contig, begin and end
     for my $row (1 ... $row_max)
     {
 	my $locationCell = $worksheet->get_cell($row,3);
@@ -30,6 +34,7 @@ for my $worksheet ( $workbook->worksheets())
     }
 }
 
+#find one EC number in description at a time, remove it from description, and then search for more
 sub getECNumbers
 {
     my $description=$_[0];

@@ -20,7 +20,7 @@ to do the same thing for Wenbin's data located in the Tropical.kegg file. Wenbin
 
 5. perl makeContigs.pl atrc/Tropical_final_kmer77.fa atrc/atrcContigs
 
-to make separate fasta files in the directory atrcContigs for each contig encountered in the Tropical_final file. The contigs are numbered in order of occurrence in the Tropical_final file. The command also creates a empty noContig fasta file that will be used for annotations in PathoLogic from Wenbin's data without contig data (see below).
+to make separate fasta files in the directory atrcContigs for each contig encountered in the Tropical_final file. The command also creates a empty noContig fasta file that will be used for annotations in PathoLogic from Wenbin's data without contig data (see below).
 
 6. perl makeGeneticElements.pl atrc/atrcContigs atrc atrc/atrcgenetic-elements.dat
 
@@ -50,5 +50,11 @@ Where possible, annotations from atrcAnnotationSpreadsheet.csv with a contig num
 
 Portiera:
 
-All files are located in the Portiera subfolder. The main input file is 1122Specific.txt, which I handcreated from the corresponding Excel file in the subfolder Junbo. The script cleanModel.m takes this text file as input to create a COBRA model variable, which it then outputs as 1122Specific.xml, and obtains flux distributions that result from maximizing flux through specific reactions, which are stored in 1122FluxMaps. You can run MATLAB scripts by opening a MATLAB command window, which I believe I installed on Junbo's computer, navigating to the folder with the script, and just typing the script's name and pressing Enter. Finally, to visualize the model, you should open Cytoscape, go to File->Import->Network (Multiple File Types), and select 1122Specific.xml. To layout it properly, install the plugin CySBML, and use it to load the layout file tempLayout.xml. Finally, the plugin CyFluxViz should allow import and visualize the flux distribution files in 1122FluxMaps, once I debug it properly.
+All files are located in the Portiera subfolder. The main input file is 1122Specific.txt, which I handcreated from the corresponding Excel file in the subfolder Junbo. I run
+
+perl makePathoLogicFilePortiera.pl Portiera/1122Specific.txt Portiera/1122Specific.pf
+
+to make a PathoLogic input file, and handcreated the dummy files 1122Specific.fa and 1122Specificgenetic-elements.dat. I then create a Portiera model in PathoLogic as with A. tropicalis, and export it 1122Specific.xml.
+
+The script cleanModel.m takes this text file as input to create a COBRA model variable, which it then outputs as 1122Specific.xml, and obtains flux distributions that result from maximizing flux through specific reactions, which are stored in 1122FluxMaps. You can run MATLAB scripts by opening a MATLAB command window, which I believe I installed on Junbo's computer, navigating to the folder with the script, and just typing the script's name and pressing Enter. Finally, to visualize the model, you should open Cytoscape, go to File->Import->Network (Multiple File Types), and select 1122Specific.xml. To layout it properly, install the plugin CySBML, and use it to load the layout file tempLayout.xml. Finally, the plugin CyFluxViz should allow import and visualize the flux distribution files in 1122FluxMaps, once I debug it properly.
 
