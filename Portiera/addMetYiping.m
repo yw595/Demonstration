@@ -1,4 +1,4 @@
-function newModel = addMet(oldModel,metName)
+function newModel = addMetYiping(oldModel,metName)
     newModel=oldModel;
     newModel.mets{end+1}=metName;
     newModel.metCharge(end+1)=0;
